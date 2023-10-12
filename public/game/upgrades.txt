@@ -1,0 +1,5 @@
+Planned Upgrades:
+
+Drill Speed: Makes mining faster
+Drill Efficiency: Gets more resources per mine
+Satelite Range: Access to more planets
