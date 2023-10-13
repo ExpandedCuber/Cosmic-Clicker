@@ -1,34 +1,42 @@
-const rocketPower = document.getElementsByClassName('rocketpowerprice')[0];
-const drillSpeed = document.getElementsByClassName('drillspeedprice')[0];
+const rocketPower = document.getElementById('rocketpower');
+const drillSpeedElement = document.getElementById('drillspeed');
 
-rocketPower.addEventListener('click', purchaseRocketPower);
+drillSpeedElement.addEventListener('click', drillSpeed);
 
-import { resources } from './mining.js';
+const resources = JSON.parse(localStorage.getItem('resources')) || {};
 
+console.log(resources.iron);
+console.log(resources.copper);
+console.log(resources.water);
+
+function updateText() {
+    drillSpeedElement.textContent = `Iron: ${drillSpeedCost}`;
+}
+
+
+let miningSpeed = 5000;
 const costIncreasePercentage = 100;
 
-let rocketPowerCost = 100; 
+let drillSpeedCost = 100;
 
-function purchaseRocketPower() {
+function drillSpeed() {
+    if (resources.iron >= drillSpeedCost) {
+        resources.iron -= drillSpeedCost;
+        drillSpeedCost = Math.round(drillSpeedCost * (1 + costIncreasePercentage / 100));
+        updateText();
 
-    if ( resources.iron >= rocketPowerCost) {
+        miningSpeed -= 1000; // Decrease miningSpeed by 1000 milliseconds
 
-        resources.iron -= rocketPowerCost;
-
-        rocketPowerCost = Math.round(rocketPowerCost * (1 + costIncreasePercentage / 100));
-    } else {
+        localStorage.setItem('miningSpeed', miningSpeed);
+        localStorage.setItem('resources', JSON.stringify(resources));
+        localStorage.setItem('drillSpeedCost', drillSpeedCost);
+    } else if (resources.iron < drillSpeedCost) {
         alert("Not enough resources to purchase the upgrade!");
     }
 }
 
-function priceText() {
 
-    rocketPowerPrice.textContent = rocketPowerCost;
-
-    localStorage.setItem('resources', JSON.stringify(resources));
-}
-
-function price() {
-
-    upgradeCost.rocketPowerPrice = (upgradeCost.rocketPowerPrice || 0) + 100;
+window.onload = function () {
+    drillSpeedCost = parseInt(localStorage.getItem("drillSpeedCost")) || 100;
+    updateText();
 }

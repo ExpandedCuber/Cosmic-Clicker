@@ -2,7 +2,8 @@ const iron = document.getElementById('iron');
 const copper = document.getElementById('copper');
 const water = document.getElementById('water');
 const miningProgress = document.getElementById('miningProgress');
-
+const wetPlanet = document.getElementById('wetplanet');
+wetPlanet.addEventListener('click', mineWetPlanet);
 const resources = {};
 
 window.onload = function () {
@@ -14,55 +15,40 @@ window.onload = function () {
 };
 
 function mineWetPlanet() {
-    // Disable the mining button to prevent multiple clicks during mining
     wetPlanet.disabled = true;
 
-    setTimeout(function () {
-        // After 5 seconds, update the resources
-        resources.iron = (resources.iron || 0) + 100;
-        resources.copper = (resources.copper || 0) + 200;
-        resources.water = (resources.water || 0) + 20;
+    const miningSpeed = parseInt(localStorage.getItem('miningSpeed'));
 
-        resourceAmount();
-        console.log(resources); // Log the updated resources
+    let progress = 0;
 
-        // Re-enable the mining button
-        wetPlanet.disabled = false;
+    const updateProgressBar = () => {
+        miningProgress.value = progress;
+        if (progress < 100) {
+            progress += 1;
+            setTimeout(updateProgressBar, miningSpeed / 100);
+        } else {
+            resources.iron = (resources.iron || 0) + 100;
+            resources.copper = (resources.copper || 0) + 200;
+            resources.water = (resources.water || 0) + 20;
 
-        // Save the updated resources to localStorage
-        localStorage.setItem('resources', JSON.stringify(resources));
-    }, 5000); // 5000 milliseconds = 5 seconds
+            // Update the resources in localStorage
+            localStorage.setItem('resources', JSON.stringify(resources));
 
-    miningProgress.style = "display: shown;"
+            resourceAmount();
 
-    setTimeout(function () {
-        miningProgress.value = 0;
-    }, 1000);
-    setTimeout(function () {
-        miningProgress.value = 1;
-    }, 2000);
-    setTimeout(function () {
-        miningProgress.value = 2;
-    }, 3000);
-    setTimeout(function () {
-        miningProgress.value = 3;
-    }, 4000);
-    setTimeout(function () {
-        miningProgress.value = 4;
-        miningProgress.style = "display: none;"
-    }, 5000);
-    setTimeout(function () {
-        miningProgress.value = 0;
-    }, 6000);
+            wetPlanet.disabled = false;
+            miningProgress.value = 0;
+        }
+    }
+
+    updateProgressBar();
 }
 
 function resourceAmount() {
-    iron.title = `Iron: ${resources.iron || 0}`;
-    copper.title = `Copper: ${resources.copper || 0}`;
-    water.title = `Water: ${resources.water || 0}`;
+    const resourceStorage = JSON.parse(localStorage.getItem('resources')) || {};
+    iron.title = `Iron: ${resourceStorage.iron || 0}`;
+    copper.title = `Copper: ${resourceStorage.copper || 0}`;
+    water.title = `Water: ${resourceStorage.water || 0}`;
 }
 
 resourceAmount();
-
-const wetPlanet = document.getElementById('wetplanet');
-wetPlanet.addEventListener('click', mineWetPlanet);

@@ -13,12 +13,12 @@
         <div class="upgrade-container">
             <button class="upgrade-card rocketpower">
                 <p class="card-name">Rocket Power: </p>
-                <p class="card-price rocketpowerprice" id="upgrade"></p>
+                <p class="card-price rocketpowerprice" id="rocketpower"></p>
                 <p class="card-info">This upgrade makes your rocket go faster</p>
             </button>
             <button class="upgrade-card drillspeed">
                 <p class="card-name">Drill Speed: </p>
-                <p class="card-price drillspeedprice" id="upgrade"></p>
+                <p class="card-price drillspeedprice" id="drillspeed"></p>
                 <p class="card-info">This upgrade makes your mining faster</p>
             </button>
         </div>
@@ -26,6 +26,7 @@
         <div class="game-container">
             <input type="range" min="0" max="4" name="miningProgress" id="miningProgress" value="0" disabled style="display: none;">
             <img id="wetplanet" src="../images/wetplanet.gif"  class="planet wetplanet">
+            <progress id="miningProgress" max="100" value="0"></progress>
         </div>
 
         <div class="ui-container">
@@ -38,8 +39,8 @@
         </div>
     </div>
 
-    <script src="mining.js"></script>
+    <script type="module" src="mining.js"></script>
     <script src="rocket.js"></script>
-    <script src="upgrade.js"></script>
+    <script type="module" src="upgrade.js"></script>
 </body>
 </html>

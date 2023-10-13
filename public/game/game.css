@@ -68,13 +68,14 @@ body {
 }
 
 .card-price {
-    width: fit-content;
-    height: auto;
+    width: 7vw;
+    height: 3vw;
     font-size: 2vw;
     position: absolute;
     color: rgb(204, 204, 204);
     margin-right: 0.5vw;
     left: 50%;
+    background-color: red;
     margin-top: 3rem;
 }
 
