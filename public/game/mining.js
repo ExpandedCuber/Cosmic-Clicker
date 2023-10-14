@@ -7,19 +7,25 @@ const resources = JSON.parse(localStorage.getItem('resources')) || {
 const wetPlanet = document.getElementById('wetplanet');
 const progressBar = document.getElementById('miningProgress');
 let startTime;
-let miningSpeed = localStorage.getItem('miningSpeed') || 5000; // Move this line outside the event listener
+let miningSpeed = localStorage.getItem('miningSpeed') || 5000;
+let drillEfficiency = localStorage.getItem('drillEfficiency') || 1;
 
 function checkForUpdates() {
-  const updatedMiningSpeed = localStorage.getItem('miningSpeed');
+    const updatedMiningSpeed = localStorage.getItem('miningSpeed');
+    let updatedDrillEfficiencyStorage = localStorage.getItem('drillEfficiency');
 
-  if (updatedMiningSpeed) {
-    miningSpeed = updatedMiningSpeed;
+    if (updatedDrillEfficiencyStorage) {
+      drillEfficiency = updatedDrillEfficiencyStorage;
+    }
+
+    if (updatedMiningSpeed) {
+
+      miningSpeed = updatedMiningSpeed;
+    }
   }
-  
-}
 
-// Periodically check for updates (e.g., every few seconds)
-setInterval(checkForUpdates, 3000);
+
+setInterval(checkForUpdates, 1000);
 
 function updateProgressBar() {
   progressBar.setAttribute('value', 0);
@@ -42,20 +48,29 @@ function updateProgressBar() {
   update();
 }
 
+let isMining = false; // Add a variable to track the mining state
+
 document.addEventListener("DOMContentLoaded", function () {
   resourceAmount(); 
 
   wetPlanet.addEventListener('click', () => {
+    if (isMining) {
+      return;
+    }
+    
+    isMining = true; // Set the mining state to true
     updateProgressBar(); 
 
     wetPlanet.disabled = true;
     progressBar.style.display = 'block';
+
     setTimeout(() => {
-      resources.iron += 1000;
-      resources.copper += 200;
-      resources.water += 20;
+      resources.iron +=  drillEfficiency * 100 || 100;
+      resources.copper += drillEfficiency * 200 || 200;
+      resources.water += drillEfficiency * 20 || 100;
 
       localStorage.setItem('resources', JSON.stringify(resources));
+      isMining = false; // Set the mining state back to false
       wetPlanet.disabled = false;
       resourceAmount();
       progressBar.style.display = 'none';
@@ -63,14 +78,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
 function resourceAmount() {
   const iron = document.getElementById('iron');
   const copper = document.getElementById('copper');
   const water = document.getElementById('water');
 
-  console.log(`Iron: ${resources.iron}`);
-  console.log(`Copper: ${resources.copper}`);
-  console.log(`Water: ${resources.water}`);
+  // console.log(`Iron: ${resources.iron}`);
+  // console.log(`Copper: ${resources.copper}`);
+  // console.log(`Water: ${resources.water}`);
 
   iron.title = `Iron: ${resources.iron}`;
   copper.title = `Copper: ${resources.copper}`;

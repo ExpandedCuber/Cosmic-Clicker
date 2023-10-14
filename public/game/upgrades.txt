@@ -2,4 +2,5 @@ Planned Upgrades:
 
 Drill Speed: Makes mining faster
 Drill Efficiency: Gets more resources per mine
+Rocket Power: Your rocket takes you to planets faster
 Satelite Range: Access to more planets
