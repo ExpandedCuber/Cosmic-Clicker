@@ -4,7 +4,9 @@ const resources = JSON.parse(localStorage.getItem('resources')) || {
   water: 0
 };
 
+const planets = document.querySelectorAll('.planet');
 const wetPlanet = document.getElementById('wetplanet');
+const dryPlanet = document.getElementById('dryplanet');
 const progressBar = document.getElementById('miningProgress');
 let startTime;
 let miningSpeed = localStorage.getItem('miningSpeed') || 5000;
@@ -62,6 +64,30 @@ document.addEventListener("DOMContentLoaded", function () {
     updateProgressBar(); 
 
     wetPlanet.disabled = true;
+    progressBar.style.display = 'block';
+
+    setTimeout(() => {
+      resources.iron +=  drillEfficiency * 100 || 100;
+      resources.copper += drillEfficiency * 200 || 200;
+      resources.water += drillEfficiency * 20 || 100;
+
+      localStorage.setItem('resources', JSON.stringify(resources));
+      isMining = false; // Set the mining state back to false
+      wetPlanet.disabled = false;
+      resourceAmount();
+      progressBar.style.display = 'none';
+    }, miningSpeed);
+  });
+
+  dryPlanet.addEventListener('click', () => {
+    if (isMining) {
+      return;
+    }
+
+    isMining = true; // Set the mining state to true
+    updateProgressBar(); 
+
+    dryPlanet.disabled = true;
     progressBar.style.display = 'block';
 
     setTimeout(() => {

@@ -3,30 +3,28 @@ const drillSpeedElement = document.getElementById('drillspeed');
 const drillEfficiencyElement = document.getElementById('drillefficiency');
 const sateliteElement = document.getElementById('satelite');
 
-let updatedResources = {}; // Initialize as an empty object
+let updatedResources = {}; 
 
-// Check Local Storage for updates
 function checkForUpdates() {
   const updatedMiningSpeed = localStorage.getItem('miningSpeed');
   const storedResources = JSON.parse(localStorage.getItem('resources'));
 
   if (updatedMiningSpeed) {
-    // Apply the updated mining speed
     miningSpeed = parseInt(updatedMiningSpeed);
   }
   
   if (storedResources) {
-    // Assign stored resources to the new variable
     updatedResources = storedResources;
   }
 }
 
-// Periodically check for updates (e.g., every few seconds)
 setInterval(checkForUpdates, 1000);
 
 function updateText() {
     const sateliteName = document.getElementById('sateliteName');
     sateliteName.innerHTML = `Satelite: ${sateliteCount} Planets`;
+    const satelitePrice = document.getElementById('satelitePrice');
+    satelitePrice.innerHTML = `Iron: ${sateliteCost.iron}<br>Copper: ${sateliteCost.copper}<br>Water: ${sateliteCost.water}`;
     const drillSpeedName = document.getElementById('drillSpeedName');
     drillSpeedName.innerHTML = `Drill Speed: ${miningSpeed / 1000}s`;
     const drillEfficiencyName = document.getElementById('drillEfficiencyName');
@@ -167,7 +165,7 @@ window.onload = function () {
   const storedDrillEfficiencyCost = JSON.parse(localStorage.getItem('drillEfficiencyCost'));
   const storedSateliteCost = JSON.parse(localStorage.getItem('sateliteCost'));
 
-  if (sateliteCost) {
+  if (storedSateliteCost) {
     sateliteCost = storedSateliteCost;
   }
   if (storedDrillEfficiencyCost) {

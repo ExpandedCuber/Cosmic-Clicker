@@ -74,6 +74,10 @@ body {
     width: 100%;
 }
 
+#sateliteName {
+  font-size: 1.8vw;
+}
+
 .card-price {
     font-size: 1vw;
     color: rgb(204, 204, 204);
