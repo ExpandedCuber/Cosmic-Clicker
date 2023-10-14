@@ -130,5 +130,6 @@ body {
 #miningProgress {
     position: absolute;
     top: 25%;
-    display: block !important;
+    display: none;
+    width: 10vw;
 }
