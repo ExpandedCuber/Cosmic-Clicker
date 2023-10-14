@@ -130,4 +130,5 @@ body {
 #miningProgress {
     position: absolute;
     top: 25%;
+    display: block !important;
 }

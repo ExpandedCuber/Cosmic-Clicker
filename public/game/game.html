@@ -26,7 +26,8 @@
         <div class="game-container">
             <input type="range" min="0" max="4" name="miningProgress" id="miningProgress" value="0" disabled style="display: none;">
             <img id="wetplanet" src="../images/wetplanet.gif"  class="planet wetplanet">
-            <progress id="miningProgress" max="100" value="0"></progress>
+            <progress id="miningProgress" max="100" value="0" disabled="false"></progress>
+
         </div>
 
         <div class="ui-container">
@@ -39,8 +40,8 @@
         </div>
     </div>
 
-    <script type="module" src="mining.js"></script>
     <script src="rocket.js"></script>
     <script type="module" src="upgrade.js"></script>
+    <script src="mining.js"></script>
 </body>
 </html>

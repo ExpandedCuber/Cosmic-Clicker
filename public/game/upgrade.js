@@ -21,19 +21,22 @@ let drillSpeedCost = 100;
 
 function drillSpeed() {
     if (resources.iron >= drillSpeedCost) {
-        resources.iron -= drillSpeedCost;
-        drillSpeedCost = Math.round(drillSpeedCost * (1 + costIncreasePercentage / 100));
-        updateText();
-
-        miningSpeed -= 1000; // Decrease miningSpeed by 1000 milliseconds
-
-        localStorage.setItem('miningSpeed', miningSpeed);
-        localStorage.setItem('resources', JSON.stringify(resources));
-        localStorage.setItem('drillSpeedCost', drillSpeedCost);
-    } else if (resources.iron < drillSpeedCost) {
-        alert("Not enough resources to purchase the upgrade!");
+      resources.iron -= drillSpeedCost;
+      drillSpeedCost = Math.round(drillSpeedCost * (1 + costIncreasePercentage / 100));
+      updateText();
+  
+      miningSpeed -= 1000; // Decrease miningSpeed by 1000 milliseconds
+  
+      // Update the 'iron' resource in localStorage
+      localStorage.setItem('resources', JSON.stringify(resources));
+      // Update 'miningSpeed' and 'drillSpeedCost' in localStorage
+      localStorage.setItem('miningSpeed', miningSpeed);
+      localStorage.setItem('drillSpeedCost', drillSpeedCost);
+    } else {
+      alert("Not enough resources to purchase the upgrade!");
     }
-}
+  }
+  
 
 
 window.onload = function () {
