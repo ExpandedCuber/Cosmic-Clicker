@@ -82,7 +82,7 @@ body {
     font-size: 1vw;
     color: rgb(204, 204, 204);
     position: absolute;
-    bottom: 12%;
+    bottom: 20px;
     right: 0;
     width: 50%; /* Takes up the right 50% */
     height: 3vw;
@@ -117,7 +117,7 @@ body {
     width: 90%;
     height: 5vw;
     position: absolute;
-    top: 6%;
+    top: 60px;
 }
 
 .resource:hover {
@@ -145,4 +145,26 @@ body {
     top: 25%;
     display: none;
     width: 10vw;
+}
+
+.travel {
+    position: absolute;
+    top: 75%;
+    width: 5vw;
+    height: 5vh;
+    background-color: blue;
+    z-index: 5;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 1.5vw;
+}
+
+.travel:hover {
+    border: 1px solid;
+}
+
+#cheatCode {
+    margin-right: 20vw;
+    font-size: 1vw;
 }

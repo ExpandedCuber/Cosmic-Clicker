@@ -1,7 +1,8 @@
 const resources = JSON.parse(localStorage.getItem('resources')) || {
   iron: 0,
   copper: 0,
-  water: 0
+  water: 0,
+  metal: 0
 };
 
 const planets = document.querySelectorAll('.planet');
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       resources.iron +=  drillEfficiency * 100 || 100;
       resources.copper += drillEfficiency * 200 || 200;
-      resources.water += drillEfficiency * 20 || 100;
+      resources.water += drillEfficiency * 20 || 20;
 
       localStorage.setItem('resources', JSON.stringify(resources));
       isMining = false; // Set the mining state back to false
@@ -91,17 +92,27 @@ document.addEventListener("DOMContentLoaded", function () {
     progressBar.style.display = 'block';
 
     setTimeout(() => {
-      resources.iron +=  drillEfficiency * 100 || 100;
-      resources.copper += drillEfficiency * 200 || 200;
-      resources.water += drillEfficiency * 20 || 100;
+      resources.iron +=  drillEfficiency * 150 || 150;
+      resources.copper += drillEfficiency * 250 || 250;
+      resources.metal += drillEfficiency * 10 || 10;
 
       localStorage.setItem('resources', JSON.stringify(resources));
       isMining = false; // Set the mining state back to false
-      wetPlanet.disabled = false;
+      dryPlanet.disabled = false;
       resourceAmount();
       progressBar.style.display = 'none';
     }, miningSpeed);
   });
+});
+
+const cheatCode = document.getElementById('cheatCode').addEventListener('click', function () {
+  resources.iron += 1000;
+  resources.copper += 1000;
+  resources.water += 1000;
+  resources.metal += 1000;
+  console.log('cheater!');
+  localStorage.setItem('resources', JSON.stringify(resources));
+  resourceAmount();
 });
 
 
@@ -109,12 +120,15 @@ function resourceAmount() {
   const iron = document.getElementById('iron');
   const copper = document.getElementById('copper');
   const water = document.getElementById('water');
+  const metal = document.getElementById('metal');
 
   // console.log(`Iron: ${resources.iron}`);
   // console.log(`Copper: ${resources.copper}`);
   // console.log(`Water: ${resources.water}`);
+  // console.log(`Metal: ${resources.metal}`);
 
   iron.title = `Iron: ${resources.iron}`;
   copper.title = `Copper: ${resources.copper}`;
   water.title = `Water: ${resources.water}`;
+  metal.title = `Metal: ${resources.metal}`;
 }

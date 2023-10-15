@@ -116,7 +116,9 @@ drillEfficiencyElement.addEventListener('click', () => {
 });
 
 let sateliteCount = 1;
-const maxSateliteCount = 100;
+const maxSateliteCount = 10;
+let wetPlanetCount = localStorage.getItem('wetPlanetCount') || 1;
+let dryPlanetCount = localStorage.getItem('dryPlanetCount') || 0;
 
 let sateliteCost = { iron: 1000, copper: 2000, water: 200 };
 
@@ -147,6 +149,22 @@ sateliteElement.addEventListener('click', () => {
     if (sateliteCount >= maxSateliteCount) {
       sateliteCount = maxSateliteCount;
     }
+
+    
+
+    let min = 1;
+    let max = 2;
+    let random = Math.floor(Math.random() * (+max + 1 - +min)) + +min;
+
+    //Random = 1 is wetplanet
+    if(random === 1) {
+      localStorage.setItem('wetPlanetCount', `${wetPlanetCount + 1}`);
+    }
+    //Random = 2 is dryplanet
+    if(random === 2) {
+      localStorage.setItem('dryPlanetCount', `${dryPlanetCount + 1}`);
+    }
+    console.log(random);
 
     // console.log(drillEfficiency);
     localStorage.setItem('resources', JSON.stringify(updatedResources));
@@ -180,8 +198,8 @@ window.onload = function () {
   drillSpeedCost = parseInt(localStorage.getItem("drillSpeedCost")) || 100;
   // console.log(drillSpeedCost);
   // console.log(miningSpeed);
-  console.log(sateliteCount);
-  console.log(sateliteCost);
+  // console.log(sateliteCount);
+  // console.log(sateliteCost);
   updateText();
 }
 
