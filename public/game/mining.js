@@ -4,8 +4,6 @@ const resources = JSON.parse(localStorage.getItem('resources')) || {
   water: 0,
   metal: 0
 };
-
-const planets = document.querySelectorAll('.planet');
 const wetPlanet = document.getElementById('wetplanet');
 const dryPlanet = document.getElementById('dryplanet');
 const progressBar = document.getElementById('miningProgress');
@@ -106,10 +104,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const cheatCode = document.getElementById('cheatCode').addEventListener('click', function () {
-  resources.iron += 1000;
-  resources.copper += 1000;
-  resources.water += 1000;
-  resources.metal += 1000;
+  resources.iron += 100000;
+  resources.copper += 100000;
+  resources.water += 100000;
+  resources.metal += 100000;
   console.log('cheater!');
   localStorage.setItem('resources', JSON.stringify(resources));
   resourceAmount();

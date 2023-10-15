@@ -22,13 +22,13 @@
                 <p class="card-info">This upgrade gets you more resources when you mine</p>
             </button>
             <button class="upgrade-card satelite" id="satelite">
-                <p class="card-name" id=sateliteName>Satelite: </p>
+                <p class="card-name" id=sateliteName>Satellite: </p>
                 <p class="card-price satelite" id="satelitePrice"></p>
                 <p class="card-info">This upgrade expands your search for planets</p>
             </button>
-            <button class="upgrade-card buildRocket">
-                <p class="card-name">Build Rocket: </p>
-                <p class="card-price buildRocketPrice" id="buildRocket"></p>
+            <button class="upgrade-card buildRocket" id="buildRocket">
+                <p class="card-name" id="rocketName">Build Rocket: </p>
+                <p class="card-price buildRocketPrice" id="rocketPrice"></p>
                 <p class="card-info">Build a rocket to travel towards other planets</p>
             </button>
             <button class="upgrade-card rocketpower">
@@ -39,8 +39,9 @@
         </div>
 
         <div class="game-container">
-            <img id="wetplanet" src="../images/wetplanet.gif"  class="planet wetplanet" style='display: none;'>
+            <img id="wetplanet" src="../images/wetplanet.gif"  class="planet wetplanet">
             <img id="dryplanet" src="../images/dryplanet.gif"  class="planet dryplanet">
+            <img id="gasplanet" src="../images/gasplanet.gif"  class="planet gasplanet">
             <progress id="miningProgress" max="100" min="0" disabled="false" value="0"></progress>
             <button id="travel" class="travel">Travel</button>
             <button id="cheatCode" class="travel">CheatCode</button>

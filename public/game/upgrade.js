@@ -2,6 +2,7 @@ const rocketPower = document.getElementById('rocketpower');
 const drillSpeedElement = document.getElementById('drillspeed');
 const drillEfficiencyElement = document.getElementById('drillefficiency');
 const sateliteElement = document.getElementById('satelite');
+const rocketElement = document.getElementById('buildRocket');
 
 let updatedResources = {}; 
 
@@ -22,21 +23,40 @@ setInterval(checkForUpdates, 1000);
 
 function updateText() {
     const sateliteName = document.getElementById('sateliteName');
-    sateliteName.innerHTML = `Satelite: ${sateliteCount} Planets`;
+    sateliteName.innerHTML = `Satellite: ${sateliteCount} Planets`;
     const satelitePrice = document.getElementById('satelitePrice');
     satelitePrice.innerHTML = `Iron: ${sateliteCost.iron}<br>Copper: ${sateliteCost.copper}<br>Water: ${sateliteCost.water}`;
+    const sateliteUpgradeComplete = localStorage.getItem('sateliteCompleteUpgrade');
+    if(sateliteUpgradeComplete === 'true') {
+      satelitePrice.innerHTML = `Upgrade<br>Complete!`;
+    }
+
     const drillSpeedName = document.getElementById('drillSpeedName');
     drillSpeedName.innerHTML = `Drill Speed: ${miningSpeed / 1000}s`;
-    const drillEfficiencyName = document.getElementById('drillEfficiencyName');
-    drillEfficiencyName.innerHTML = `Drill Efficiency: ${drillEfficiency}x`;
     const drillSpeedPrice = document.getElementById('drillSpeedPrice');
     drillSpeedPrice.innerHTML = `Iron: ${drillSpeedCost}<br>Copper: 0<br>Water: 0`;
-    const upgradeComplete = localStorage.getItem('completeUpgrade');
-    if(upgradeComplete === 'true') {
+    const speedUpgradeComplete = localStorage.getItem('completeUpgrade');
+    if(speedUpgradeComplete === 'true') {
       drillSpeedPrice.innerHTML = `Upgrade<br>Complete!`;
     }
+
+    const drillEfficiencyName = document.getElementById('drillEfficiencyName');
+    drillEfficiencyName.innerHTML = `Drill Efficiency: ${drillEfficiency}x`;
     const drillEfficiencyPrice = document.getElementById('drillEfficiencyPrice');
     drillEfficiencyPrice.innerHTML = `Iron: ${drillEfficiencyCost.iron}<br>Copper: ${drillEfficiencyCost.copper}<br>Water: 0`
+    const efficiencyUpgradeComplete = localStorage.getItem('efficiencyCompleteUpgrade');
+    if(efficiencyUpgradeComplete === 'true') {
+      drillEfficiencyPrice.innerHTML = `Upgrade<br>Complete!`;
+    }
+
+    const rocketName = document.getElementById('rocketName');
+    rocketName.innerHTML = `Build Rocket:`;
+    const rocketPrice = document.getElementById('rocketPrice');
+    rocketPrice.innerHTML = `Iron: ${rocketCost.iron}<br>Copper: ${rocketCost.copper}<br>Water: ${rocketCost.water}`;
+    const rocketUpgradeComplete = localStorage.getItem('rocketCompleteUpgrade');
+    if(rocketUpgradeComplete === 'true') {
+      rocketPrice.innerHTML = `Upgrade<br>Complete!`;
+    }
 }
 
 let miningSpeed = 5000;
@@ -48,7 +68,7 @@ drillSpeedElement.addEventListener('click', () => {
   const drillSpeedPrice = document.getElementById('drillSpeedPrice');
   if (miningSpeed <= minMiningSpeed) {
     drillSpeedPrice.innerHTML = 'Upgrade<br>Complete!';
-    localStorage.setItem('completeUpgrade', 'true');
+    localStorage.setItem('speedCompleteUpgrade', 'true');
     return;
   }
 
@@ -84,7 +104,7 @@ drillEfficiencyElement.addEventListener('click', () => {
   const drillEfficiencyPrice = document.getElementById('drillEfficiencyPrice');
   if (drillEfficiency >= maxEfficiency) {
     drillEfficiencyPrice.innerHTML = 'Upgrade<br>Complete!';
-    localStorage.setItem('completeUpgrade', 'true');
+    localStorage.setItem('efficiencyCompleteUpgrade', 'true');
     return;
   }
 
@@ -117,8 +137,6 @@ drillEfficiencyElement.addEventListener('click', () => {
 
 let sateliteCount = 1;
 const maxSateliteCount = 10;
-let wetPlanetCount = localStorage.getItem('wetPlanetCount') || 1;
-let dryPlanetCount = localStorage.getItem('dryPlanetCount') || 0;
 
 let sateliteCost = { iron: 1000, copper: 2000, water: 200 };
 
@@ -127,7 +145,7 @@ sateliteElement.addEventListener('click', () => {
   const satelitePrice = document.getElementById('satelitePrice');
   if (sateliteCount >= maxSateliteCount) {
     satelitePrice.innerHTML = 'Upgrade<br>Complete!';
-    localStorage.setItem('completeUpgrade', 'true');
+    localStorage.setItem('sateliteCompleteUpgrade', 'true');
     return;
   }
 
@@ -150,22 +168,6 @@ sateliteElement.addEventListener('click', () => {
       sateliteCount = maxSateliteCount;
     }
 
-    
-
-    let min = 1;
-    let max = 2;
-    let random = Math.floor(Math.random() * (+max + 1 - +min)) + +min;
-
-    //Random = 1 is wetplanet
-    if(random === 1) {
-      localStorage.setItem('wetPlanetCount', `${wetPlanetCount + 1}`);
-    }
-    //Random = 2 is dryplanet
-    if(random === 2) {
-      localStorage.setItem('dryPlanetCount', `${dryPlanetCount + 1}`);
-    }
-    console.log(random);
-
     // console.log(drillEfficiency);
     localStorage.setItem('resources', JSON.stringify(updatedResources));
     localStorage.setItem('sateliteCount', sateliteCount);
@@ -177,23 +179,80 @@ sateliteElement.addEventListener('click', () => {
   }
 });
 
+
+let maxRocketCount = 1;
+let rocketCount = 0;
+let rocketCost = { iron: 2000, copper: 2000, water: 400 };
+
+rocketElement.addEventListener('click', () => {
+  const rocketPrice = document.getElementById('rocketPrice');
+  if (rocketCount >= maxrocketCount) {
+    rocketPrice.innerHTML = 'Upgrade<br>Complete!';
+    localStorage.setItem('rocketCompleteUpgrade', 'true');
+    return;
+  }
+
+  if (
+    updatedResources.iron >= rocketCost.iron &&
+    updatedResources.copper >= rocketCost.copper && 
+    updatedResources.water >= rocketCost.water
+  ) {
+    updatedResources.iron -= rocketCost.iron;
+    updatedResources.copper -= rocketCost.copper;
+    updatedResources.copper -= rocketCost.copper;
+    updateText();
+
+    rocketCount += 1;
+
+    const travelButton = document.getElementById('travel');
+    travelButton.style.display = 'block';
+
+    if (rocketCount >= maxRocketCount) {
+      rocketCount = maxRocketCount;
+    }
+
+    localStorage.setItem('resources', JSON.stringify(updatedResources));
+    localStorage.setItem('rocketCount', rocketCount);
+    localStorage.setItem('rocketCost', JSON.stringify(rocketCost));
+
+    location.reload();
+  } else {
+    alert("Not enough resources to purchase the upgrade!");
+  }
+});
+
 window.onload = function () {
   miningSpeed = localStorage.getItem('miningSpeed') || 5000;
   drillEfficiency = parseInt(localStorage.getItem('drillEfficiency')) || 1;
+  sateliteCount = parseInt(localStorage.getItem('sateliteCount')) || 1;
+  rocketCount = parseInt(localStorage.getItem('rocketCount')) || 0;
   const storedDrillEfficiencyCost = JSON.parse(localStorage.getItem('drillEfficiencyCost'));
   const storedSateliteCost = JSON.parse(localStorage.getItem('sateliteCost'));
+  const storedRocketCost = JSON.parse(localStorage.getItem('rocketCost'));
+
+  if (storedRocketCost) {
+    rocketCost = storedRocketCost;
+  }
+  if (rocketCount <= maxRocketCount) {
+    rocketCount = maxRocketCount;
+  }
 
   if (storedSateliteCost) {
     sateliteCost = storedSateliteCost;
   }
+  if (sateliteCount <= maxSateliteCount) {
+    sateliteCount = maxSateliteCount;
+  }
+
   if (storedDrillEfficiencyCost) {
     drillEfficiencyCost = storedDrillEfficiencyCost;
   }
-  if (miningSpeed <= minMiningSpeed) {
-    miningSpeed = minMiningSpeed;
-  }
   if (drillEfficiency >= maxEfficiency) {
     drillEfficiency = maxEfficiency;
+  }
+
+  if (miningSpeed <= minMiningSpeed) {
+    miningSpeed = minMiningSpeed;
   }
   drillSpeedCost = parseInt(localStorage.getItem("drillSpeedCost")) || 100;
   // console.log(drillSpeedCost);
