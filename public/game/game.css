@@ -59,7 +59,7 @@ body {
     margin-top: 0.5vw;
     display: flex;
     flex-direction: column;
-    position: relative; /* Added for positioning */
+    position: relative;
 }
 
 .upgrade-card:hover {
@@ -80,17 +80,17 @@ body {
     position: absolute;
     bottom: 20px;
     right: 0;
-    width: 50%; /* Takes up the right 50% */
+    width: 50%;
     height: 3vw;
     margin-right: 0.5vw;
 }
 
 .card-info {
     font-size: 1vw;
-    width: 50%; /* Takes up the left 50% */
+    width: 50%;
     height: fit-content;
-    margin-top: auto; /* Aligns to the bottom */
-    color: white; /* Adjust text color */
+    margin-top: auto;
+    color: white;
 }
 
 
@@ -109,11 +109,24 @@ body {
     justify-content: center;
 }
 
+.resource-text {
+    font-size: 2vw;
+    position: fixed;
+}
+
 .resource-container {
     width: 90%;
     height: 5vw;
     position: absolute;
-    top: 60px;
+    top: 7vh;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.resource {
+    width: 2vw;
+    height: 4vh;
 }
 
 .resource:hover {

@@ -5,18 +5,12 @@ const sateliteElement = document.getElementById('satelite');
 const rocketElement = document.getElementById('buildRocket');
 const rocketPowerElement = document.getElementById('rocketPower');
 const rocketFuelElement = document.getElementById('rocketFuel');
-//Make rocket fuel a buyable item costing like 100 methane and like something idk
 
 let updatedResources = {}; 
 
 function checkForUpdates() {
   const updatedMiningSpeed = localStorage.getItem('miningSpeed');
   const storedResources = JSON.parse(localStorage.getItem('resources'));
-  const updatedRocketFuelCount = parseInt(localStorage.getItem('rocketFuelCount'));
-
-  if(updatedRocketFuelCount) {
-    rocketFuelCount = updatedRocketFuelCount;
-  }
 
   if (updatedMiningSpeed) {
     miningSpeed = parseInt(updatedMiningSpeed);
@@ -81,7 +75,7 @@ function updateText() {
     const rocketFuelName = document.getElementById('rocketFuelName');
     rocketFuelName.innerHTML = `Rocket Fuel: ${rocketFuelCount}`
     const rocketFuelPrice = document.getElementById('rocketFuelPrice');
-    rocketFuelPrice.innerHTML = `Iron: ${rocketFuelCost.iron}<br>Copper: ${rocketFuelCost.copper}<br>Water: ${rocketFuelCost.water}`
+    rocketFuelPrice.innerHTML = `Iron: ${rocketFuelCost.iron}<br>Copper: ${rocketFuelCost.copper}<br>Water: ${rocketFuelCost.water}<br>Methane: ${rocketFuelCost.methane}`
 }
 
 let miningSpeed = 5000;
@@ -275,18 +269,20 @@ rocketPowerElement.addEventListener('click', () => {
 let rocketFuelCount = 5;
 
 //Add methane
-let rocketFuelCost = { iron: 100, copper: 200, water: 20};
+let rocketFuelCost = { iron: 100, copper: 200, water: 20, methane: 40};
 rocketFuelElement.style.display = 'none';
 
 rocketFuelElement.addEventListener('click', function () {
   if (
     updatedResources.iron >= rocketFuelCost.iron &&
     updatedResources.copper >= rocketFuelCost.copper && 
-    updatedResources.water >= rocketFuelCost.water
+    updatedResources.water >= rocketFuelCost.water &&
+    updatedResources.methane >= rocketFuelCost.methane
   ) {
     updatedResources.iron -= rocketFuelCost.iron;
     updatedResources.copper -= rocketFuelCost.copper;
     updatedResources.water -= rocketFuelCost.water;
+    updatedResources.methane -= rocketFuelCost.methane;
     updateText();
 
     rocketFuelCount += 1;
@@ -317,10 +313,14 @@ window.onload = function () {
   rocketPowerCount = parseInt(localStorage.getItem('rocketPowerCount')) || 10000;
 
   const storedRocketFuelCost = JSON.parse(localStorage.getItem('rocketFuelCost'));
-  rocketFuelCount = parseInt(localStorage.getItem('rocketFuelCount')) || 5;
+  const storedRocketFuelCount = parseInt(localStorage.getItem('rocketFuelCount')) || 5;
 
   if(storedRocketFuelCost) {
     rocketFuelCost = storedRocketFuelCost;
+  }
+
+  if(storedRocketFuelCount) {
+    rocketFuelCount = storedRocketFuelCount;
   }
 
   if (storedRocketPowerCost) {

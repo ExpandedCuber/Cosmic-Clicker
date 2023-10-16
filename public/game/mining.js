@@ -2,7 +2,8 @@ const resources = JSON.parse(localStorage.getItem('resources')) || {
   iron: 0,
   copper: 0,
   water: 0,
-  metal: 0
+  metal: 0,
+  methane: 0
 };
 const wetPlanet = document.getElementById('wetplanet');
 const dryPlanet = document.getElementById('dryplanet');
@@ -109,24 +110,18 @@ gasPlanet.addEventListener('click', () => {
     return;
   }
 
-  isMining = true; // Set the mining state to true
+  isMining = true;
   updateProgressBar(); 
 
   gasPlanet.disabled = true;
   progressBar.style.display = 'block';
 
   setTimeout(() => {
-    //Add Hydrogen
-    resources.iron +=  drillEfficiency * 150 || 150;
-    resources.copper += drillEfficiency * 250 || 250;
-    resources.metal += drillEfficiency * 10 || 10;
-
-    console.log(resources.iron);
-    console.log(resources.copper);
-    console.log(resources.metal);
+    resources.metal += drillEfficiency * 20 || 20;
+    resources.methane += drillEfficiency * 30 || 30;
 
     localStorage.setItem('resources', JSON.stringify(resources));
-    isMining = false; // Set the mining state back to false
+    isMining = false;
     gasPlanet.disabled = false;
     resourceAmount();
     progressBar.style.display = 'none';
@@ -138,6 +133,7 @@ const cheatCode = document.getElementById('cheatCode').addEventListener('click',
   resources.copper += 100000;
   resources.water += 100000;
   resources.metal += 100000;
+  resources.methane += 100000;
   console.log('cheater!');
   localStorage.setItem('resources', JSON.stringify(resources));
   resourceAmount();
@@ -149,6 +145,7 @@ function resourceAmount() {
   const copper = document.getElementById('copper');
   const water = document.getElementById('water');
   const metal = document.getElementById('metal');
+  const methane = document.getElementById('methane');
 
   // console.log(`Iron: ${resources.iron}`);
   // console.log(`Copper: ${resources.copper}`);
@@ -159,4 +156,5 @@ function resourceAmount() {
   copper.title = `Copper: ${resources.copper}`;
   water.title = `Water: ${resources.water}`;
   metal.title = `Metal: ${resources.metal}`;
+  methane.title = `Methane: ${resources.methane}`;
 }

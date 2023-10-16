@@ -1,3 +1,4 @@
+
 const travelButton = document.getElementById('travel');
 const planets = Array.from(document.querySelectorAll('.planet'));
 const rocketFlying = document.getElementById('rocketFlying');
@@ -29,16 +30,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+function checkForUpdates() {
+    const updatedRocketFuel = localStorage.getItem('rocketFuelCount') || 5;
+
+    if(updatedRocketFuel) {
+      rocketFuelCount = updatedRocketFuel;
+    }
+}
+
+setInterval(checkForUpdates, 100);
+
 travelButton.addEventListener('click', function () {
     const rocketTime = localStorage.getItem('rocketPowerCount') || 10000;
     const savedPlanetId = getCurrentPlanet();
     const savedPlanetElement = document.getElementById(`${savedPlanetId}`);
-    let rocketFuelCount = parseInt(localStorage.getItem('rocketFuelCount')) || 5;
-    console.log(savedPlanetElement);
+    const rocketFuelName = document.getElementById('rocketFuelName');
 
     if (rocketFuelCount >= 1) {
         rocketFuelCount -= 1;
+        
         localStorage.setItem('rocketFuelCount', rocketFuelCount);
+        rocketFuelName.textContent = `Rocket Fuel: ${rocketFuelCount}`;
+        console.log(localStorage.getItem('rocketFuelCount'));
+
 
         rocketFlying.style.display = 'block';
         travelButton.style.display = 'none';
@@ -74,10 +88,9 @@ travelButton.addEventListener('click', function () {
             travelButton.style.display = 'block';
             rocketFlying.style.display = 'none';
 
-            location.reload();
-
         }, rocketTime);
     } else {
         alert('Not enough Rocket Fuel!');
+        return; // Prevent further code execution
     }
 });
