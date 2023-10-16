@@ -169,3 +169,26 @@ body {
     margin-right: 20vw;
     font-size: 1vw;
 }
+
+.rocketFuel {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 20px;
+    position: absolute;
+    left: 75%;
+    top: 1%;
+    background-color: rgba(34, 34, 34, 0.5);
+    cursor: pointer;
+    color: white;
+    font-size: 1vw;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#rocketFuelPrice {
+    color: gray;
+}
+
+.rocketFuel:hover {
+    background-color: rgb(34, 34, 34);
+}

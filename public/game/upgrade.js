@@ -4,7 +4,7 @@ const drillEfficiencyElement = document.getElementById('drillefficiency');
 const sateliteElement = document.getElementById('satelite');
 const rocketElement = document.getElementById('buildRocket');
 const rocketPowerElement = document.getElementById('rocketPower');
-
+const rocketFuelElement = document.getElementById('rocketFuel');
 //Make rocket fuel a buyable item costing like 100 methane and like something idk
 
 let updatedResources = {}; 
@@ -12,6 +12,11 @@ let updatedResources = {};
 function checkForUpdates() {
   const updatedMiningSpeed = localStorage.getItem('miningSpeed');
   const storedResources = JSON.parse(localStorage.getItem('resources'));
+  const updatedRocketFuelCount = parseInt(localStorage.getItem('rocketFuelCount'));
+
+  if(updatedRocketFuelCount) {
+    rocketFuelCount = updatedRocketFuelCount;
+  }
 
   if (updatedMiningSpeed) {
     miningSpeed = parseInt(updatedMiningSpeed);
@@ -22,7 +27,9 @@ function checkForUpdates() {
   }
 }
 
-setInterval(checkForUpdates, 1000);
+setInterval(checkForUpdates, 100);
+
+
 
 function updateText() {
     const sateliteName = document.getElementById('sateliteName');
@@ -70,6 +77,11 @@ function updateText() {
     if(rocketPowerUpgradeComplete === 'true') {
       rocketPowerPrice.innerHTML = `Upgrade<br>Complete!`;
     }
+
+    const rocketFuelName = document.getElementById('rocketFuelName');
+    rocketFuelName.innerHTML = `Rocket Fuel: ${rocketFuelCount}`
+    const rocketFuelPrice = document.getElementById('rocketFuelPrice');
+    rocketFuelPrice.innerHTML = `Iron: ${rocketFuelCost.iron}<br>Copper: ${rocketFuelCost.copper}<br>Water: ${rocketFuelCost.water}`
 }
 
 let miningSpeed = 5000;
@@ -204,10 +216,8 @@ rocketElement.addEventListener('click', () => {
     updatedResources.water -= rocketCost.water;
     updateText();
 
-    const travelButton = document.getElementById('travel');
-    travelButton.style.display = 'block';
-
     console.log('clicked');
+    rocketFuelElement.style.display = 'block';
 
     localStorage.setItem('resources', JSON.stringify(updatedResources));
     localStorage.setItem('rocketCost', JSON.stringify(rocketCost));
@@ -222,7 +232,6 @@ rocketElement.addEventListener('click', () => {
 let rocketPowerCount = 10000;
 const minRocketPowerCount = 1000;
 
-satelite
 let rocketPowerCost = { iron: 500, copper: 1000, water: 100, metal: 100 };
 
 rocketPowerElement.addEventListener('click', () => {
@@ -263,6 +272,35 @@ rocketPowerElement.addEventListener('click', () => {
   }
 });
 
+let rocketFuelCount = 5;
+
+//Add methane
+let rocketFuelCost = { iron: 100, copper: 200, water: 20};
+rocketFuelElement.style.display = 'none';
+
+rocketFuelElement.addEventListener('click', function () {
+  if (
+    updatedResources.iron >= rocketFuelCost.iron &&
+    updatedResources.copper >= rocketFuelCost.copper && 
+    updatedResources.water >= rocketFuelCost.water
+  ) {
+    updatedResources.iron -= rocketFuelCost.iron;
+    updatedResources.copper -= rocketFuelCost.copper;
+    updatedResources.water -= rocketFuelCost.water;
+    updateText();
+
+    rocketFuelCount += 1;
+
+    location.reload();
+    localStorage.setItem('resources', JSON.stringify(updatedResources));
+    localStorage.setItem('rocketFuelCount', rocketFuelCount);
+    localStorage.setItem('rocketFuelCost', JSON.stringify(rocketFuelCost));
+
+  } else {
+    alert("Not enough resources to purchase the upgrade!");
+  }
+});
+
 window.onload = function () {
   miningSpeed = localStorage.getItem('miningSpeed') || 5000;
 
@@ -278,6 +316,12 @@ window.onload = function () {
   const storedRocketPowerCost = JSON.parse(localStorage.getItem('rocketPowerCost'));
   rocketPowerCount = parseInt(localStorage.getItem('rocketPowerCount')) || 10000;
 
+  const storedRocketFuelCost = JSON.parse(localStorage.getItem('rocketFuelCost'));
+  rocketFuelCount = parseInt(localStorage.getItem('rocketFuelCount')) || 5;
+
+  if(storedRocketFuelCost) {
+    rocketFuelCost = storedRocketFuelCost;
+  }
 
   if (storedRocketPowerCost) {
     rocketPowerCost = storedRocketPowerCost;
@@ -288,6 +332,7 @@ window.onload = function () {
 
   if(rocketPurchased === 'true') {
     travelButton.style.display = 'block';
+    rocketFuelElement.style.display = 'block';
   }
   if (storedRocketCost) {
     rocketCost = storedRocketCost;
