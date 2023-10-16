@@ -5,7 +5,6 @@ const planetArray = Array.from(planets);
 
 function setCurrentPlanet(planetId) {
     localStorage.setItem('currentPlanet', planetId);
-    console.log(localStorage.getItem('currentPlanet'));
 }
 
 function getCurrentPlanet() {
@@ -29,18 +28,47 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
+//Make it cost rocket fuel to travel
+let lastDisplayedPlanetId = null; // Add this variable to keep track of the last displayed planet
+
 travelButton.addEventListener('click', function () {
-    let randomIndex;
-    let randomPlanet;
+    const rocketTime = localStorage.getItem('rocketPowerCount') || 10000;
 
-    do {
-        randomIndex = Math.floor(Math.random() * planetArray.length);
-        randomPlanet = planetArray[randomIndex];
-    } while (randomPlanet.style.display === 'block');
+    // Find the currently displayed planet
+    const savedPlanetId = getCurrentPlanet();
+    const savedPlanet = planetArray.find(planet => planet.id === savedPlanetId);
 
-    setCurrentPlanet(randomPlanet.id);
+    const rocketFlying = document.getElementById('rocketFlying');
 
-    for (const planet of planetArray) {
-        planet.style.display = planet === randomPlanet ? 'block' : 'none';
+    rocketFlying.style.display = 'block';
+
+    travelButton.style.display = 'none';
+
+    if (savedPlanet) {
+        savedPlanet.style.display = 'none';
+
+        setTimeout(() => {
+            let randomIndex;
+            let randomPlanet;
+
+            do {
+                randomIndex = Math.floor(Math.random() * planetArray.length);
+                randomPlanet = planetArray[randomIndex];
+            } while (randomPlanet.style.display === 'block' || randomPlanet.id === lastDisplayedPlanetId);
+
+            setCurrentPlanet(randomPlanet.id);
+
+            lastDisplayedPlanetId = randomPlanet.id; // Update the last displayed planet
+
+            for (const planet of planetArray) {
+                planet.style.display = planet === randomPlanet ? 'block' : 'none';
+            }
+            travelButton.style.display = 'block';
+            rocketFlying.style.display = 'none';
+        }, rocketTime);
     }
 });
+
+
+

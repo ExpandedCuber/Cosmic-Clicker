@@ -31,9 +31,9 @@
                 <p class="card-price buildRocketPrice" id="rocketPrice"></p>
                 <p class="card-info">Build a rocket to travel towards other planets</p>
             </button>
-            <button class="upgrade-card rocketpower">
-                <p class="card-name">Rocket Power: </p>
-                <p class="card-price rocketpowerprice" id="rocketpower"></p>
+            <button class="upgrade-card rocketpower" id="rocketPower">
+                <p class="card-name" id="rocketPowerName">Rocket Power: </p>
+                <p class="card-price rocketPowerPrice" id="rocketPowerPrice"></p>
                 <p class="card-info">This upgrade makes your rocket go faster</p>
             </button>
         </div>
@@ -43,6 +43,9 @@
             <img id="dryplanet" src="../images/dryplanet.gif"  class="planet dryplanet">
             <img id="gasplanet" src="../images/gasplanet.gif"  class="planet gasplanet">
             <progress id="miningProgress" max="100" min="0" disabled="false" value="0"></progress>
+
+            <img src="../images/rocketflying.gif" class="rocketFlying" id="rocketFlying" style="display: none;">
+
             <button id="travel" class="travel">Travel</button>
             <button id="cheatCode" class="travel">CheatCode</button>
 
@@ -65,4 +68,4 @@
     <script src="rocket.js"></script>
 
 </body>
-</html>
+</html> 

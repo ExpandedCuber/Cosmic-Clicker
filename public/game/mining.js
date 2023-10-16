@@ -6,6 +6,7 @@ const resources = JSON.parse(localStorage.getItem('resources')) || {
 };
 const wetPlanet = document.getElementById('wetplanet');
 const dryPlanet = document.getElementById('dryplanet');
+const gasPlanet = document.getElementById('gasplanet');
 const progressBar = document.getElementById('miningProgress');
 let startTime;
 let miningSpeed = localStorage.getItem('miningSpeed') || 5000;
@@ -101,6 +102,35 @@ document.addEventListener("DOMContentLoaded", function () {
       progressBar.style.display = 'none';
     }, miningSpeed);
   });
+});
+
+gasPlanet.addEventListener('click', () => {
+  if (isMining) {
+    return;
+  }
+
+  isMining = true; // Set the mining state to true
+  updateProgressBar(); 
+
+  gasPlanet.disabled = true;
+  progressBar.style.display = 'block';
+
+  setTimeout(() => {
+    //Add Hydrogen
+    resources.iron +=  drillEfficiency * 150 || 150;
+    resources.copper += drillEfficiency * 250 || 250;
+    resources.metal += drillEfficiency * 10 || 10;
+
+    console.log(resources.iron);
+    console.log(resources.copper);
+    console.log(resources.metal);
+
+    localStorage.setItem('resources', JSON.stringify(resources));
+    isMining = false; // Set the mining state back to false
+    gasPlanet.disabled = false;
+    resourceAmount();
+    progressBar.style.display = 'none';
+  }, miningSpeed);
 });
 
 const cheatCode = document.getElementById('cheatCode').addEventListener('click', function () {
